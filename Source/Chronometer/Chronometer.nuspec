@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Chronometer</id>
+    <version>$version$</version>
+    <title>Chronometer</title>
+    <authors>narkhedegs@gmail.com</authors>
+    <owners>narkhedegs@gmail.com</owners>
+    <licenseUrl>https://raw.githubusercontent.com/narkhedegs/Chronometer/develop/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/narkhedegs/Chronometer</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/narkhedegs/Chronometer/master/chronometer.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Chronometer is a small C# time measurement library which can be used for performance testing.</description>
+    <copyright>Copyright (C) Gaurav Narkhede</copyright>
+    <tags>time measurement performance testing</tags>
+  </metadata>
+</package>
