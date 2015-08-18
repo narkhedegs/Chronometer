@@ -3,7 +3,7 @@
     - git config --global core.autocrlf true
 
   build_script:
-    - cmd: powershell -NoProfile -ExecutionPolicy unrestricted -Command .\build.ps1
+    - cmd: powershell -NoProfile -ExecutionPolicy unrestricted -Command .\build.ps1 -Target "Package"
 
   test: off
 
