@@ -110,8 +110,8 @@ Task("Patch-Assembly-Info")
 	{
 	    CreateAssemblyInfo(assemblyInfoFile, new AssemblyInfoSettings {
 			Product = projectName,
-			Version = semanticVersion,
-			FileVersion = semanticVersion,
+			Version = version,
+			FileVersion = version,
 			InformationalVersion = semanticVersion,
 			Copyright = "Copyright (c) Gaurav Narkhede"
 		});
