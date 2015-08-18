@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\..\Libraries\NugetPackages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\Libraries\NugetPackages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,13 +45,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ChronometerOptionsGenerator.cs" />
+    <Compile Include="Helpers\FakeTimer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="when_calculating_normalized_mean.cs" />
+    <Compile Include="when_constructing_chronometer.cs" />
+    <Compile Include="when_constructing_chronometer_using_a_default_constructor.cs" />
+    <Compile Include="when_creating_a_timer.cs" />
+    <Compile Include="when_measuring_execution_time.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Chronometer\Chronometer.csproj">
       <Project>{a7db622d-13dd-46f3-9eb3-273204e933cc}</Project>
       <Name>Chronometer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
