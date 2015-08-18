@@ -20,7 +20,9 @@ var isPullRequest = AppVeyor.Environment.PullRequest.IsPullRequest;
 var releaseNotes = ParseReleaseNotes("./ReleaseNotes.md");
 
 // Get version.
-var semanticVersion = releaseNotes.Version.ToString();
+var buildNumber = AppVeyor.Environment.Build.Number;
+var version = releaseNotes.Version.ToString();
+var semanticVersion = (local || target == "Publish") ? version : (version + string.Concat("-build-", buildNumber));
 
 // Define directories.
 var sourceDirectory = Directory("./Source");
@@ -46,7 +48,6 @@ Setup(() =>
     Information("Is local build: " + local.ToString());
     Information("Is running on AppVeyor: " + isRunningOnAppVeyor.ToString());
     Information("Semantic Version: " + semanticVersion);
-    Information("NuGet Api Key: " + EnvironmentVariable("NuGetApiKey"));
 });
 
 Teardown(() =>
@@ -178,7 +179,7 @@ Task("Update-AppVeyor-Build-Number")
 });
 
 Task("Upload-AppVeyor-Artifacts")
-    .IsDependentOn("Package")
+    .IsDependentOn("Create-NuGet-Packages")
     .WithCriteria(() => isRunningOnAppVeyor)
     .Does(() =>
 {
@@ -218,11 +219,11 @@ Task("Default")
     .IsDependentOn("Run-Unit-Tests");
 
 Task("Package")
-    .IsDependentOn("Create-NuGet-Packages");
+	.IsDependentOn("Update-AppVeyor-Build-Number")
+    .IsDependentOn("Upload-AppVeyor-Artifacts");
 	
 Task("Publish")
 	.IsDependentOn("Update-AppVeyor-Build-Number")
-	.IsDependentOn("Upload-AppVeyor-Artifacts")
     .IsDependentOn("Publish-NuGet-Packages");
 
 ///////////////////////////////////////////////////////////////////////////////
