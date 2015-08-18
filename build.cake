@@ -113,7 +113,8 @@ Task("Patch-Assembly-Info")
 			Version = version,
 			FileVersion = version,
 			InformationalVersion = semanticVersion,
-			Copyright = "Copyright (c) Gaurav Narkhede"
+			Copyright = "Copyright (c) Gaurav Narkhede",
+			InternalsVisibleTo = new List<string>{ "Chronometer.Tests", "InternalsVisible.DynamicProxyGenAssembly2", "DynamicProxyGenAssembly2" }
 		});
 	}
 });
