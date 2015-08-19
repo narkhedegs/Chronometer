@@ -1,3 +1,6 @@
+### New in 0.0.2 (Released 2015/08/19)
+* Change NuGet package id to Narkhedegs.Chronometer
+
 ### New in 0.0.1 (Released 2015/08/19)
 * First release of Chronometer
 * Option to measure execution time of code under test using Stopwatch or using TotalProcessorTime

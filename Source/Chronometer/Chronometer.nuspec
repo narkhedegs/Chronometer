@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Chronometer</id>
+    <id>Narkhedegs.Chronometer</id>
     <version>$version$</version>
     <title>Chronometer</title>
     <authors>narkhedegs@gmail.com</authors>

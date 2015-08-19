@@ -9,7 +9,7 @@ Chronometer is a small C# time measurement library which can be used for perform
 
 # Installation
 Chronometer is available at Nuget.org and can be installed as a package using VisualStudio NuGet package manager or via the NuGet command line:
-> Install-Package Chronometer
+> Install-Package Narkhedegs.Chronometer
 
 # Usage
 Add an using statement for Narkhedegs.PerformanceMeasurement.
