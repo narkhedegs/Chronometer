@@ -8,7 +8,7 @@
     <owners>narkhedegs@gmail.com</owners>
     <licenseUrl>https://raw.githubusercontent.com/narkhedegs/Chronometer/develop/LICENSE</licenseUrl>
     <projectUrl>https://github.com/narkhedegs/Chronometer</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/narkhedegs/Chronometer/master/chronometer.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/narkhedegs/Chronometer/develop/chronometer.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Chronometer is a small C# time measurement library which can be used for performance testing.</description>
     <copyright>Copyright (C) Gaurav Narkhede</copyright>

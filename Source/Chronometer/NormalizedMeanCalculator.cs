@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Chronometer
+namespace Narkhedegs.PerformanceMeasurement
 {
     /// <summary>
     /// Provides a set of methods to calculate a normalized mean for given collection of double values.

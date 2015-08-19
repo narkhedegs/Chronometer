@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chronometer
+namespace Narkhedegs.PerformanceMeasurement
 {
     /// <summary>
     /// Provides a set of methods and properties that you can use to accurately measure elapsed time.

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Chronometer
+namespace Narkhedegs.PerformanceMeasurement
 {
     /// <summary>
     /// Implements <see cref="ITimer"/> by measuring Process.GetCurrentProcess().TotalProcessorTime.

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Narkhedegs.PerformanceMeasurement;
 using NUnit.Framework;
 
 namespace Chronometer.Tests

@@ -50,6 +50,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="when_calculating_normalized_mean.cs" />
     <Compile Include="when_constructing_chronometer.cs" />
+    <Compile Include="when_constructing_ChronometerOptions.cs" />
     <Compile Include="when_constructing_chronometer_using_a_default_constructor.cs" />
     <Compile Include="when_creating_a_timer.cs" />
     <Compile Include="when_measuring_execution_time.cs" />

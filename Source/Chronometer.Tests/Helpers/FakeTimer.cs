@@ -1,4 +1,5 @@
 ﻿using System;
+using Narkhedegs.PerformanceMeasurement;
 
 namespace Chronometer.Tests.Helpers
 {

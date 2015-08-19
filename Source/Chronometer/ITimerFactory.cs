@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chronometer
+namespace Narkhedegs.PerformanceMeasurement
 {
     /// <summary>
     /// Factory for Timers <see cref="ITimer"/>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Chronometer
+namespace Narkhedegs.PerformanceMeasurement
 {
     /// <summary>
     /// Provides a set of methods that you can use to accurately measure the execution time for the code under test.

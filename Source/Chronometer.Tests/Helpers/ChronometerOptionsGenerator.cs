@@ -1,4 +1,6 @@
-﻿namespace Chronometer.Tests.Helpers
+﻿using Narkhedegs.PerformanceMeasurement;
+
+namespace Chronometer.Tests.Helpers
 {
     public static class ChronometerOptionsGenerator
     {

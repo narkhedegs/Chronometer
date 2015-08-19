@@ -1,6 +1,7 @@
 ﻿using System;
 using Chronometer.Tests.Helpers;
 using Moq;
+using Narkhedegs.PerformanceMeasurement;
 using NUnit.Framework;
 
 namespace Chronometer.Tests
@@ -26,7 +27,7 @@ namespace Chronometer.Tests
             _options = null;
 
             Assert.Throws<ArgumentNullException>(
-                () => new Chronometer(_options, _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object));
+                () => new Narkhedegs.PerformanceMeasurement.Chronometer(_options, _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object));
         }
 
         [Test]
@@ -35,8 +36,8 @@ namespace Chronometer.Tests
             _options = ChronometerOptionsGenerator.Default().WithNumberOfIterations(null);
 
             Assert.Throws<ArgumentException>(
-                () => new Chronometer(_options, _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object),
-                Properties.Resources.NumberOfIterationsLessThan1ExceptionMessage);
+                () => new Narkhedegs.PerformanceMeasurement.Chronometer(_options, _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object),
+                Narkhedegs.PerformanceMeasurement.Properties.Resources.NumberOfIterationsLessThan1ExceptionMessage);
         }
 
         [Test]
@@ -45,20 +46,20 @@ namespace Chronometer.Tests
             _options = ChronometerOptionsGenerator.Default().WithNumberOfIterations(0);
 
             Assert.Throws<ArgumentException>(
-                () => new Chronometer(_options, _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object),
-                Properties.Resources.NumberOfIterationsLessThan1ExceptionMessage);
+                () => new Narkhedegs.PerformanceMeasurement.Chronometer(_options, _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object),
+                Narkhedegs.PerformanceMeasurement.Properties.Resources.NumberOfIterationsLessThan1ExceptionMessage);
         }
 
         [Test]
         public void it_should_throw_ArgumentNullException_if_normalizedMeanCalculator_parameter_is_null()
         {
-            Assert.Throws<ArgumentNullException>(() => new Chronometer(_options, null, _timerFactoryMock.Object));
+            Assert.Throws<ArgumentNullException>(() => new Narkhedegs.PerformanceMeasurement.Chronometer(_options, null, _timerFactoryMock.Object));
         }
 
         [Test]
         public void it_should_throw_ArgumentNullException_if_timerFactory_parameter_is_null()
         {
-            Assert.Throws<ArgumentNullException>(() => new Chronometer(_options, _normalizedMeanCalculatorMock.Object, null));
+            Assert.Throws<ArgumentNullException>(() => new Narkhedegs.PerformanceMeasurement.Chronometer(_options, _normalizedMeanCalculatorMock.Object, null));
         }
 
         [Test]
@@ -70,7 +71,7 @@ namespace Chronometer.Tests
                 NumberOfInterations = 10
             };
 
-            var chronometer = new Chronometer(_options, _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object);
+            var chronometer = new Narkhedegs.PerformanceMeasurement.Chronometer(_options, _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object);
 
             Assert.AreEqual(chronometer.Options, _options);
         }

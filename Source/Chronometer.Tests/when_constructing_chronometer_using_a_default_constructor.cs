@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Narkhedegs.PerformanceMeasurement;
+using NUnit.Framework;
 
 namespace Chronometer.Tests
 {
@@ -10,7 +11,7 @@ namespace Chronometer.Tests
         [SetUp]
         public void SetUp()
         {
-            _chronometer = new Chronometer();
+            _chronometer = new Narkhedegs.PerformanceMeasurement.Chronometer();
         }
 
         [Test]

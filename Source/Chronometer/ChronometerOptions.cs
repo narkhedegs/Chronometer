@@ -1,10 +1,19 @@
-﻿namespace Chronometer
+﻿namespace Narkhedegs.PerformanceMeasurement
 {
     /// <summary>
     /// Options that can be passed to the <see cref="Chronometer"/> to change its behaviour.
     /// </summary>
     public class ChronometerOptions
     {
+        /// <summary>
+        /// Creates a new instance of <see cref="ChronometerOptions"/>. By default the NumberOfInterations is set 
+        /// to 1.
+        /// </summary>
+        public ChronometerOptions()
+        {
+            NumberOfInterations = 1;
+        }
+
         /// <summary>
         /// Number of times the code under test should be executed. This value must be greater than zero.
         /// </summary>

@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 
-namespace Chronometer
+namespace Narkhedegs.PerformanceMeasurement
 {
     /// <summary>
     /// Implements <see cref="ITimer"/> using <see cref="System.Diagnostics.Stopwatch"/>.
