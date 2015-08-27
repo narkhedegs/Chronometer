@@ -11,6 +11,9 @@ namespace Narkhedegs.PerformanceMeasurement
     {
         private readonly INormalizedMeanCalculator _normalizedMeanCalculator;
         private readonly ITimerFactory _timerFactory;
+        private readonly IMemoryOptimizer _memoryOptimizer;
+        private readonly IPerformanceOptimizer _performanceOptimizer;
+        private readonly IDebugModeDetector _debugModeDetector;
 
         /// <summary>
         /// Options that can be passed to the <see cref="Chronometer"/> to change its behaviour.
@@ -20,17 +23,19 @@ namespace Narkhedegs.PerformanceMeasurement
         /// <summary>
         /// Initializes a new instance of Chronometer with default options. 
         ///     By default - 
-        ///         NumberOfInterations             = 1
-        ///         Warmup                          = false
-        ///         UseNormalizedMean               = false
-        ///         MeasureUsingProcessorTime       = false
+        ///         NumberOfInterations                 = 1
+        ///         Warmup                              = false
+        ///         UseNormalizedMean                   = false
+        ///         MeasureUsingProcessorTime           = false
+        ///         AllowMeasurementsUnderDebugMode     = false
         /// </summary>
         public Chronometer() : this(new ChronometerOptions
         {
             NumberOfInterations = 1,
             Warmup = false,
             UseNormalizedMean = false,
-            MeasureUsingProcessorTime = false
+            MeasureUsingProcessorTime = false,
+            AllowMeasurementsUnderDebugMode = false
         })
         {
         }
@@ -39,7 +44,10 @@ namespace Narkhedegs.PerformanceMeasurement
         /// Initializes a new instance of Chronometer with the given options.
         /// </summary>
         /// <param name="options"><see cref="ChronometerOptions"/></param>
-        public Chronometer(ChronometerOptions options) : this(options, new NormalizedMeanCalculator(), new TimerFactory())
+        public Chronometer(ChronometerOptions options)
+            : this(
+                options, new NormalizedMeanCalculator(), new TimerFactory(), new MemoryOptimizer(),
+                new PerformanceOptimizer(), new DebugModeDetector())
         {
         }
 
@@ -49,10 +57,16 @@ namespace Narkhedegs.PerformanceMeasurement
         /// <param name="options"><see cref="ChronometerOptions"/></param>
         /// <param name="normalizedMeanCalculator">Implementation of <see cref="INormalizedMeanCalculator"/></param>
         /// <param name="timerFactory">Implementation of <see cref="ITimerFactory"/></param>
+        /// <param name="memoryOptimizer">Implementation of <see cref="IMemoryOptimizer"/></param>
+        /// <param name="performanceOptimizer">Implementation of <see cref="IPerformanceOptimizer"/></param>
+        /// <param name="debugModeDetector">Implementation of <see cref="IDebugModeDetector"/></param>
         internal Chronometer(
             ChronometerOptions options, 
             INormalizedMeanCalculator normalizedMeanCalculator,
-            ITimerFactory timerFactory)
+            ITimerFactory timerFactory,
+            IMemoryOptimizer memoryOptimizer,
+            IPerformanceOptimizer performanceOptimizer,
+            IDebugModeDetector debugModeDetector)
         {
             if(options == null)
                 throw new ArgumentNullException("options");
@@ -69,9 +83,21 @@ namespace Narkhedegs.PerformanceMeasurement
             if(timerFactory == null)
                 throw new ArgumentNullException("timerFactory");
 
+            if (memoryOptimizer == null)
+                throw new ArgumentNullException("memoryOptimizer");
+
+            if (performanceOptimizer == null)
+                throw new ArgumentNullException("performanceOptimizer");
+
+            if (debugModeDetector == null)
+                throw new ArgumentNullException("debugModeDetector");
+
             Options = options;
             _normalizedMeanCalculator = normalizedMeanCalculator;
             _timerFactory = timerFactory;
+            _memoryOptimizer = memoryOptimizer;
+            _performanceOptimizer = performanceOptimizer;
+            _debugModeDetector = debugModeDetector;
         }
 
         /// <summary>
@@ -88,6 +114,10 @@ namespace Narkhedegs.PerformanceMeasurement
         /// </returns>
         public double Measure(Action action, int? numberOfIterations = null)
         {
+            if(!Options.AllowMeasurementsUnderDebugMode && _debugModeDetector.IsInDebugMode())
+                throw new InvalidOperationException(
+                    "Under the current Chronometer configuration, measurements are not allowed when the process is in debug mode. Please set AllowMeasurementsUnderDebugMode chronometer option to true if you would like measurements when the process is under debug mode.");
+
             if (action == null)
                 throw new ArgumentNullException("action");
 
@@ -95,14 +125,9 @@ namespace Narkhedegs.PerformanceMeasurement
                 throw new ArgumentException(Properties.Resources.NumberOfIterationsLessThan1ExceptionMessage,
                     "numberOfIterations");
 
-            //Clean garbage.
-            GC.Collect();
+            _memoryOptimizer.Optimize();
 
-            //Wait for the finalizer queue to empty.
-            GC.WaitForPendingFinalizers();
-
-            //Clean Garbage.
-            GC.Collect();
+            _performanceOptimizer.Optimize();
 
             //Warm up
             if (Options.Warmup)
@@ -121,6 +146,8 @@ namespace Narkhedegs.PerformanceMeasurement
 
                 timings.Add(timer.Elapsed.TotalMilliseconds);
             }
+
+            _performanceOptimizer.Revert();
 
             return Options.UseNormalizedMean ? _normalizedMeanCalculator.Calculate(timings) : timings.Average();
         }

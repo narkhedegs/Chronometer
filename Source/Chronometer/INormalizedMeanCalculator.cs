@@ -6,7 +6,7 @@ namespace Narkhedegs.PerformanceMeasurement
     /// <summary>
     /// Provides a set of methods to calculate a normalized mean for given collection of double values.
     /// </summary>
-    public interface INormalizedMeanCalculator
+    internal interface INormalizedMeanCalculator
     {
         /// <summary>
         /// NormalizedMean gives you the mean of the values discarding the noise. The deviation of each value 

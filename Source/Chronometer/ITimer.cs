@@ -5,7 +5,7 @@ namespace Narkhedegs.PerformanceMeasurement
     /// <summary>
     /// Provides a set of methods and properties that you can use to accurately measure elapsed time.
     /// </summary>
-    public interface ITimer
+    internal interface ITimer
     {
         /// <summary>
         /// Gets the total elapsed time measured by the current instance.

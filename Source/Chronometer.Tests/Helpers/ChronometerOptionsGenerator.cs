@@ -35,5 +35,11 @@ namespace Chronometer.Tests.Helpers
             options.UseNormalizedMean = true;
             return options;
         }
+
+        public static ChronometerOptions DoNotAllowMeasurementsUnderDebugMode(this ChronometerOptions options)
+        {
+            options.AllowMeasurementsUnderDebugMode = false;
+            return options;
+        }
     }
 }

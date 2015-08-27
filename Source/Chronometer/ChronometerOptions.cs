@@ -41,5 +41,11 @@
         /// <see cref="System.Diagnostics.Stopwatch"/>
         /// </summary>
         public bool MeasureUsingProcessorTime { get; set; }
+
+        /// <summary>
+        /// Decides whether to allow measurements when the current process is being debugged or is compiled under DEBUG 
+        /// configuration. By default this option is set to false to avoid wrong results.
+        /// </summary>
+        public bool AllowMeasurementsUnderDebugMode { get; set; }
     }
 }

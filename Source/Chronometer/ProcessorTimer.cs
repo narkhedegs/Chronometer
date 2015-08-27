@@ -6,7 +6,7 @@ namespace Narkhedegs.PerformanceMeasurement
     /// <summary>
     /// Implements <see cref="ITimer"/> by measuring Process.GetCurrentProcess().TotalProcessorTime.
     /// </summary>
-    public class ProcessorTimer : ITimer
+    internal class ProcessorTimer : ITimer
     {
         private bool _isRunning;
         private TimeSpan _startTime;

@@ -14,6 +14,9 @@ namespace Chronometer.Tests
         private ChronometerOptions _options;
         private Mock<INormalizedMeanCalculator> _normalizedMeanCalculatorMock;
         private Mock<ITimerFactory> _timerFactoryMock;
+        private Mock<IMemoryOptimizer> _memoryOptimizerMock;
+        private Mock<IPerformanceOptimizer> _performanceOptimizerMock;
+        private Mock<IDebugModeDetector> _debugModeDetectorMock;
 
         [SetUp]
         public void SetUp()
@@ -22,9 +25,19 @@ namespace Chronometer.Tests
             _normalizedMeanCalculatorMock = new Mock<INormalizedMeanCalculator>();
 
             _timerFactoryMock = new Mock<ITimerFactory>();
-            _timerFactoryMock.Setup(x => x.Create(It.IsAny<ChronometerOptions>())).Returns(new FakeTimer());
+            _timerFactoryMock.Setup(timerFactory => timerFactory.Create(It.IsAny<ChronometerOptions>()))
+                .Returns(new FakeTimer());
 
-            _chronometer = new Narkhedegs.PerformanceMeasurement.Chronometer(_options, _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object);
+            _memoryOptimizerMock = new Mock<IMemoryOptimizer>();
+
+            _performanceOptimizerMock = new Mock<IPerformanceOptimizer>();
+
+            _debugModeDetectorMock = new Mock<IDebugModeDetector>();
+            _debugModeDetectorMock.Setup(debugModeDetector => debugModeDetector.IsInDebugMode()).Returns(false);
+
+            _chronometer = new Narkhedegs.PerformanceMeasurement.Chronometer(_options,
+                _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object, _memoryOptimizerMock.Object,
+                _performanceOptimizerMock.Object, _debugModeDetectorMock.Object);
         }
 
         [Test]
@@ -49,7 +62,9 @@ namespace Chronometer.Tests
             Action action = () => numberOfTimesActionIsExecuted += 1;
             _options = ChronometerOptionsGenerator.Default().WithWarmup();
 
-            _chronometer = new Narkhedegs.PerformanceMeasurement.Chronometer(_options, _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object);
+            _chronometer = new Narkhedegs.PerformanceMeasurement.Chronometer(_options,
+                _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object, _memoryOptimizerMock.Object,
+                _performanceOptimizerMock.Object, _debugModeDetectorMock.Object);
             _chronometer.Measure(action);
 
             Assert.AreEqual(2, numberOfTimesActionIsExecuted);
@@ -61,7 +76,9 @@ namespace Chronometer.Tests
             var numberOfTimesActionIsExecuted = 0;
             Action action = () => numberOfTimesActionIsExecuted += 1;
 
-            _chronometer = new Narkhedegs.PerformanceMeasurement.Chronometer(_options, _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object);
+            _chronometer = new Narkhedegs.PerformanceMeasurement.Chronometer(_options,
+                _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object, _memoryOptimizerMock.Object,
+                _performanceOptimizerMock.Object, _debugModeDetectorMock.Object);
             _chronometer.Measure(action);
 
             Assert.AreEqual(1, numberOfTimesActionIsExecuted);
@@ -74,7 +91,9 @@ namespace Chronometer.Tests
             Action action = () => numberOfTimesActionIsExecuted += 1;
             _options = ChronometerOptionsGenerator.Default().WithNumberOfIterations(10);
 
-            _chronometer = new Narkhedegs.PerformanceMeasurement.Chronometer(_options, _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object);
+            _chronometer = new Narkhedegs.PerformanceMeasurement.Chronometer(_options,
+                _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object, _memoryOptimizerMock.Object,
+                _performanceOptimizerMock.Object, _debugModeDetectorMock.Object);
             _chronometer.Measure(action);
 
             Assert.AreEqual(10, numberOfTimesActionIsExecuted);
@@ -86,11 +105,30 @@ namespace Chronometer.Tests
             Action doNothing = () => { };
             _options = ChronometerOptionsGenerator.Default().WithUseNormalizedMean();
 
-            _chronometer = new Narkhedegs.PerformanceMeasurement.Chronometer(_options, _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object);
+            _chronometer = new Narkhedegs.PerformanceMeasurement.Chronometer(_options,
+                _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object, _memoryOptimizerMock.Object,
+                _performanceOptimizerMock.Object, _debugModeDetectorMock.Object);
             _chronometer.Measure(doNothing);
 
             _normalizedMeanCalculatorMock.Verify(calculator => calculator.Calculate(It.IsAny<IEnumerable<double>>()),
                 Times.Once);
+        }
+
+        [Test]
+        public void
+            it_should_not_allow_measurements_if_AllowMeasurementsUnderDebugMode_option_is_false_and_the_current_process_is_in_debug_mode
+            ()
+        {
+            _debugModeDetectorMock.Setup(debugModeDetector => debugModeDetector.IsInDebugMode()).Returns(true);
+
+            Action doNothing = () => { };
+            _options = ChronometerOptionsGenerator.Default().DoNotAllowMeasurementsUnderDebugMode();
+
+            _chronometer = new Narkhedegs.PerformanceMeasurement.Chronometer(_options,
+                _normalizedMeanCalculatorMock.Object, _timerFactoryMock.Object, _memoryOptimizerMock.Object,
+                _performanceOptimizerMock.Object, _debugModeDetectorMock.Object);
+
+            Assert.Throws<InvalidOperationException>(() => _chronometer.Measure(doNothing));
         }
     }
 }

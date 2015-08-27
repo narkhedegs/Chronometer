@@ -7,7 +7,7 @@ namespace Narkhedegs.PerformanceMeasurement
     /// <summary>
     /// Implements <see cref="ITimer"/> using <see cref="System.Diagnostics.Stopwatch"/>.
     /// </summary>
-    public class StopwatchTimer : ITimer
+    internal class StopwatchTimer : ITimer
     {
         private readonly Stopwatch _stopwatch = new Stopwatch();
 

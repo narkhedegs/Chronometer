@@ -36,6 +36,12 @@ namespace Chronometer.Tests
         public void it_should_set_the_default_value_of_MeasureUsingProcessorTime_to_false()
         {
             Assert.AreEqual(false, _chronometer.Options.MeasureUsingProcessorTime);
+        }        
+        
+        [Test]
+        public void it_should_set_the_default_value_of_AllowMeasurementsUnderDebugMode_to_false()
+        {
+            Assert.AreEqual(false, _chronometer.Options.AllowMeasurementsUnderDebugMode);
         }
     }
 }
